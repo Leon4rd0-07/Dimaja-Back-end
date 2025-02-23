@@ -15,6 +15,7 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:4200")
 public class StockControlador {
 
+    //1. para mostrar mensajes en la consola
     private static final Logger logger = LoggerFactory.getLogger(StockControlador.class);
 
     @Autowired
