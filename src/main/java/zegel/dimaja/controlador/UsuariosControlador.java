@@ -4,6 +4,7 @@ package zegel.dimaja.controlador;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zegel.dimaja.modelo.Usuarios;
 import zegel.dimaja.servicio.UsuariosServicio;
@@ -24,6 +25,7 @@ public class UsuariosControlador {
     //2. Inyectar dependencia
     @Autowired
     private UsuariosServicio usuariosServicio;
+
     // http:localhost:8080/dimaja-app/usuarios
     //Establecer una Url para el listado de usuarios
     @GetMapping("/usuarios")
@@ -38,11 +40,11 @@ public class UsuariosControlador {
 
     // Endpoint para guardar un nuevo usuario
     @PostMapping("/usuarios")
-    public String guardarUsuario(@RequestBody Usuarios usuario) {
+    public Usuarios guardarUsuario(@RequestBody Usuarios usuario) {
         logger.info("Usuario recibido: " + usuario);
-        usuariosServicio.guardarUsuarios(usuario);
+        Usuarios usuarioGuardado    = usuariosServicio.guardarUsuarios(usuario);
         logger.info("Usuario guardado: " + usuario.toString());
-        return "Usuario guardado exitosamente";
+        return usuarioGuardado;
     }
 
     @GetMapping("/usuarios/{id}")
@@ -52,11 +54,11 @@ public class UsuariosControlador {
     }
 
     @DeleteMapping("/usuarios/{id}")
-    public String eliminarUsuario(@PathVariable Integer id) {
-        logger.info("Eliminando usuario con ID: " + id);
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Integer id) {
         usuariosServicio.eliminarUsuarios(id);
-        return "Usuario eliminado exitosamente";
+        return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping("/usuarios")
     public String actualizarUsuario(@RequestBody Usuarios usuario) {
