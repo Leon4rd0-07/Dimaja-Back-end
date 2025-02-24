@@ -1,9 +1,6 @@
 package zegel.dimaja.modelo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +17,8 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id_stock;
     Integer cantidad;
-    Integer id_productos;
+    @Column(name = "id_productos") // Asegura el mapeo correcto con la BD
+    Integer idProductos; // CAMBIAR de id_productos a idProductos
 
     public Integer getId_stock() {
         return id_stock;
@@ -38,11 +36,11 @@ public class Stock {
         this.cantidad = cantidad;
     }
 
-    public Integer getId_productos() {
-        return id_productos;
+    public Integer getIdProductos() {
+        return idProductos;
     }
 
-    public void setId_productos(Integer id_productos) {
-        this.id_productos = id_productos;
+    public void setIdProductos(Integer idProductos) {
+        this.idProductos = idProductos;
     }
 }

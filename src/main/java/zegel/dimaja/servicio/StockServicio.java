@@ -26,15 +26,14 @@ public class StockServicio implements IStockServicio {
 
     @Override
     public Stock agregarStock(Integer idProducto, Integer cantidad) {
-        Optional<Stock> stockExistente = stockRepositorio.findById(idProducto);
+        Stock stockExistente = stockRepositorio.findByIdProductos(idProducto); // Ya corregido
 
-        if (stockExistente.isPresent()) {
-            Stock stock = stockExistente.get();
-            stock.setCantidad(stock.getCantidad() + cantidad); // Sumar al stock actual
-            return stockRepositorio.save(stock);
+        if (stockExistente != null) {
+            stockExistente.setCantidad(stockExistente.getCantidad() + cantidad);
+            return stockRepositorio.save(stockExistente);
         } else {
             Stock nuevoStock = new Stock();
-            nuevoStock.setId_productos(idProducto);
+            nuevoStock.setIdProductos(idProducto); // CAMBIO aquí también
             nuevoStock.setCantidad(cantidad);
             return stockRepositorio.save(nuevoStock);
         }

@@ -37,7 +37,8 @@ public class StockControlador {
 
     @PostMapping("/stock")
     public ResponseEntity<Stock> agregarStock(@RequestBody Stock stock) {
-        Stock stockActualizado = stockServicio.agregarStock(stock.getId_productos(), stock.getCantidad());
+        logger.info("Recibiendo stock: " + stock);
+        Stock stockActualizado = stockServicio.agregarStock(stock.getIdProductos(), stock.getCantidad()); // Cambio aquí
         return ResponseEntity.ok(stockActualizado);
     }
 }
