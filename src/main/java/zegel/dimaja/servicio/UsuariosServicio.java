@@ -29,8 +29,8 @@ public class UsuariosServicio implements IUsuariosServicio{
     }
 
     @Override
-    public void guardarUsuarios(Usuarios usuarios) {
-        this.usuariosRepositorio.save(usuarios);
+    public Usuarios guardarUsuarios(Usuarios usuarios) {
+         return this.usuariosRepositorio.save(usuarios);
     }
 
     @Override

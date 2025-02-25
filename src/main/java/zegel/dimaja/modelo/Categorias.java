@@ -21,4 +21,20 @@ public class Categorias {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id_categorias;
     String nombre_categoria;
+
+    public Integer getId_categorias() {
+        return id_categorias;
+    }
+
+    public void setId_categorias(Integer id_categorias) {
+        this.id_categorias = id_categorias;
+    }
+
+    public String getNombre_categoria() {
+        return nombre_categoria;
+    }
+
+    public void setNombre_categoria(String nombre_categoria) {
+        this.nombre_categoria = nombre_categoria;
+    }
 }
