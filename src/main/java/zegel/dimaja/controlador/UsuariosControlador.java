@@ -6,10 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zegel.dimaja.modelo.Productos;
 import zegel.dimaja.modelo.Usuarios;
 import zegel.dimaja.servicio.UsuariosServicio;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //1. Indicar que es un controlador REST
 @RestController
@@ -59,11 +62,15 @@ public class UsuariosControlador {
         return ResponseEntity.noContent().build();
     }
 
-
     @PutMapping("/usuarios")
-    public String actualizarUsuario(@RequestBody Usuarios usuario) {
+    public ResponseEntity<Map<String, String>> actualizarUsuario(@RequestBody Usuarios usuario) {
         logger.info("Actualizando usuario: " + usuario);
         usuariosServicio.actualizarUsuarios(usuario);
-        return "Usuario actualizado exitosamente";
+
+        // Crear un JSON de respuesta
+        Map<String, String> response = new HashMap<>();
+        response.put("mensaje", "Usuario actualizado exitosamente");
+
+        return ResponseEntity.ok(response); // Retorna un JSON válido
     }
 }

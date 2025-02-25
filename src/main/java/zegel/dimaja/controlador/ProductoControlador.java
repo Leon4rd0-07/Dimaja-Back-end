@@ -72,5 +72,4 @@ public class ProductoControlador {
 
         return ResponseEntity.ok(response); // Retorna un JSON válido
     }
-
 }
