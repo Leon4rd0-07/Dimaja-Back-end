@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import zegel.dimaja.modelo.Productos;
 import zegel.dimaja.servicio.ProductoServicio;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //1. Indicar que es un controlador REST
 @RestController
@@ -60,9 +62,15 @@ public class ProductoControlador {
     }
 
     @PutMapping("/productos")
-    public String actualizarProducto(@RequestBody Productos producto) {
+    public ResponseEntity<Map<String, String>> actualizarProducto(@RequestBody Productos producto) {
         logger.info("Actualizando producto: " + producto);
         productoServicio.actualizarProducto(producto);
-        return "Producto actualizado exitosamente";
+
+        // Crear un JSON de respuesta
+        Map<String, String> response = new HashMap<>();
+        response.put("mensaje", "Producto actualizado exitosamente");
+
+        return ResponseEntity.ok(response); // Retorna un JSON válido
     }
+
 }
