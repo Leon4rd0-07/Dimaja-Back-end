@@ -12,4 +12,7 @@ public interface IUsuariosServicio {
     Usuarios guardarUsuarios (Usuarios usuarios);
     public void eliminarUsuarios(Integer idusuarios);
     public void actualizarUsuarios(Usuarios usuarios);
+
+    // Método para autenticar usuario
+    Usuarios autenticarUsuario(String usuario, String password);
 }

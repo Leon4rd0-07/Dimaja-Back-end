@@ -28,9 +28,8 @@ public class CategoriasServicio implements ICategoriaServicio{
     }
 
     @Override
-    public void guardarCategorias(Categorias categorias) {
-        this.categoriasRepositorio.save(categorias);
-
+    public Categorias guardarCategorias(Categorias categorias) {
+        return this.categoriasRepositorio.save(categorias);
     }
 
     @Override

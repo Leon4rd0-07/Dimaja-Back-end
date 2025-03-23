@@ -22,7 +22,9 @@ public class Productos {
     Integer id_productos;
     String nombres_productos;
     String img;
-    Double precio;
+    String marca;
+    Double valor_compra;
+    Double valor_venta;
     Integer id_categorias;
 
     public Integer getId_productos() {
@@ -49,12 +51,28 @@ public class Productos {
         this.img = img;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public Double getValor_compra() {
+        return valor_compra;
+    }
+
+    public void setValor_compra(Double valor_compra) {
+        this.valor_compra = valor_compra;
+    }
+
+    public Double getValor_venta() {
+        return valor_venta;
+    }
+
+    public void setValor_venta(Double valor_venta) {
+        this.valor_venta = valor_venta;
     }
 
     public Integer getId_categorias() {

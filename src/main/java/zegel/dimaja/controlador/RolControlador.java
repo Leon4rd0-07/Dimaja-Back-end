@@ -3,12 +3,8 @@ package zegel.dimaja.controlador;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import zegel.dimaja.modelo.Rol;
-import zegel.dimaja.modelo.Usuarios;
 import zegel.dimaja.servicio.RolServicio;
 
 import java.util.List;
@@ -37,5 +33,13 @@ public class RolControlador {
         logger.info("Listado de Usuarios");
         rol.forEach((rols -> logger.info(rol.toString())));
         return rol;
+    }
+    // Endpoint para guardar un nuevo rol
+    @PostMapping("/rol")
+    public Rol guardarRol(@RequestBody Rol rol) {
+        logger.info("Rol recibido: " + rol);
+        Rol rolGuardado = rolServicio.guardarRol(rol);
+        logger.info("Rol guardado: " + rolGuardado);
+        return rolGuardado;
     }
 }

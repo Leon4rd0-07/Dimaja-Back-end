@@ -3,11 +3,9 @@ package zegel.dimaja.controlador;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import zegel.dimaja.modelo.Categorias;
+import zegel.dimaja.modelo.Rol;
 import zegel.dimaja.servicio.CategoriasServicio;
 
 import java.util.List;
@@ -35,5 +33,13 @@ public class CategoriasControlador {
         logger.info("Listado de Categorias");
         categorias.forEach((categoria -> logger.info(categoria.toString())));
         return categorias;
+    }
+
+    @PostMapping("/categorias")
+    public Categorias guardarCategorias(@RequestBody Categorias categorias) {
+        logger.info("Categoria recibido: " + categorias);
+        Categorias categoriaGuardado = categoriasServicio.guardarCategorias(categorias);
+        logger.info("Categoria guardado: " + categoriaGuardado);
+        return categoriaGuardado;
     }
 }

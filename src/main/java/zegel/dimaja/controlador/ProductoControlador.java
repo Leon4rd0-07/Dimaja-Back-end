@@ -5,48 +5,43 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import zegel.dimaja.modelo.Productos;
 import zegel.dimaja.servicio.ProductoServicio;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//1. Indicar que es un controlador REST
 @RestController
-//2. Desplegar -- Mostrar en la web los datos
-// http:localhost:8080/dimaja-app
-@RequestMapping("dimaja-app") //Acceder al proyecto
-//3. La url para la petición desde angular
+@RequestMapping("dimaja-app")
 @CrossOrigin(value = "http://localhost:4200")
-
 public class ProductoControlador {
-    //1. para mostrar mensajes en la consola
+
     private static final Logger logger = LoggerFactory.getLogger(ProductoControlador.class);
-    //2. Inyectar dependencia
+
     @Autowired
     private ProductoServicio productoServicio;
 
-    // http:localhost:8080/dimaja-app/productos
-    //Establecer una Url para el listado de productos
+    // Carpeta donde se guardarán las imágenes (ubicación accesible desde el servidor)
+    private static final String UPLOAD_DIR = "uploads/";
+
     @GetMapping("/productos")
-    public List<Productos> obtenerProductos(){
-        //a. Traer la lista de productos
-        List<Productos> productos = this.productoServicio.listarProductos();
-        //Mostrar en pantalla
+    public List<Productos> obtenerProductos() {
+        List<Productos> productos = productoServicio.listarProductos();
         logger.info("Listado de Productos");
-        productos.forEach((producto -> logger.info(producto.toString())));
+        productos.forEach(producto -> logger.info(producto.toString()));
         return productos;
     }
 
-    // http:localhost:8080/dimaja-app/productos
-    // Endpoint para guardar un nuevo producto
     @PostMapping("/productos")
     public Productos guardarProducto(@RequestBody Productos producto) {
         logger.info("Producto recibido: " + producto);
         Productos productoGuardado = productoServicio.guardarProducto(producto);
-        logger.info("Producto guardado: " + productoGuardado.toString());
-        return productoGuardado; // Devuelve el objeto JSON
+        logger.info("Producto guardado: " + productoGuardado);
+        return productoGuardado;
     }
 
     @GetMapping("/productos/{id}")
@@ -65,11 +60,41 @@ public class ProductoControlador {
     public ResponseEntity<Map<String, String>> actualizarProducto(@RequestBody Productos producto) {
         logger.info("Actualizando producto: " + producto);
         productoServicio.actualizarProducto(producto);
-
-        // Crear un JSON de respuesta
         Map<String, String> response = new HashMap<>();
         response.put("mensaje", "Producto actualizado exitosamente");
+        return ResponseEntity.ok(response);
+    }
 
-        return ResponseEntity.ok(response); // Retorna un JSON válido
+    @PostMapping("/productos/upload")
+    public ResponseEntity<Map<String, String>> subirArchivo(@RequestParam("file") MultipartFile file) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            if (file.isEmpty()) {
+                response.put("error", "El archivo está vacío");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            // Asegurar que la carpeta 'uploads/' existe
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // Guardar el archivo en la carpeta 'uploads/'
+            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename(); // Evitar archivos con el mismo nombre
+            Path filePath = uploadPath.resolve(filename);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Generar la URL de acceso
+            String fileUrl = "http://localhost:8080/uploads/" + filename;
+            response.put("mensaje", "Archivo subido exitosamente");
+            response.put("url", fileUrl);
+            return ResponseEntity.ok(response);
+
+        } catch (IOException e) {
+            logger.error("Error al subir archivo", e);
+            response.put("error", "No se pudo subir el archivo");
+            return ResponseEntity.internalServerError().body(response);
+        }
     }
 }

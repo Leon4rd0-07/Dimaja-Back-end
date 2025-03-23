@@ -9,6 +9,6 @@ import java.util.List;
 public interface ICategoriaServicio {
     public List<Categorias> listarCategorias();
     public Categorias buscarCategoriasId(Integer idCategorias);
-    public void  guardarCategorias(Categorias categorias);
+    public Categorias  guardarCategorias(Categorias categorias);
     public void  eliminarCategorias(Integer idCategorias);
 }

@@ -9,5 +9,5 @@ import java.util.List;
 public interface IRolServicio {
     public List<Rol>listarRol();
     public Rol buscarRolId(Integer idrol);
-    public void guardarRol (Rol rol);
+    public Rol guardarRol (Rol rol);
 }

@@ -6,6 +6,7 @@ import zegel.dimaja.modelo.Usuarios;
 import zegel.dimaja.repositorio.UsuariosRepositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 //Implementa los detalles de los metodos
 //descritos de la interface
@@ -15,6 +16,16 @@ import java.util.List;
 public class UsuariosServicio implements IUsuariosServicio{
     @Autowired
     private UsuariosRepositorio usuariosRepositorio;
+
+    @Override
+    public Usuarios autenticarUsuario(String usuario, String password) {
+        Optional<Usuarios> usuarioEncontrado = usuariosRepositorio.findByUsuario(usuario);
+
+        if (usuarioEncontrado.isPresent() && usuarioEncontrado.get().getPassword().equals(password)) {
+            return usuarioEncontrado.get(); // Usuario autenticado con éxito
+        }
+        return null; // Usuario no encontrado o contraseña incorrecta
+    }
 
     @Override
     public List<Usuarios> listarUsuarios() {
@@ -30,7 +41,7 @@ public class UsuariosServicio implements IUsuariosServicio{
 
     @Override
     public Usuarios guardarUsuarios(Usuarios usuarios) {
-         return this.usuariosRepositorio.save(usuarios);
+        return this.usuariosRepositorio.save(usuarios);
     }
 
     @Override

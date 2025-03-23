@@ -29,7 +29,7 @@ public class RolServicio implements  IRolServicio{
     }
 
     @Override
-    public void guardarRol(Rol rol) {
-        this.rolRepositorio.save(rol);
+    public Rol guardarRol(Rol rol) {
+        return this.rolRepositorio.save(rol);
     }
 }

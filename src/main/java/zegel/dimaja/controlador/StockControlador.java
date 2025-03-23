@@ -15,7 +15,6 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:4200")
 public class StockControlador {
 
-    //1. para mostrar mensajes en la consola
     private static final Logger logger = LoggerFactory.getLogger(StockControlador.class);
 
     @Autowired
@@ -38,7 +37,20 @@ public class StockControlador {
     @PostMapping("/stock")
     public ResponseEntity<Stock> agregarStock(@RequestBody Stock stock) {
         logger.info("Recibiendo stock: " + stock);
-        Stock stockActualizado = stockServicio.agregarStock(stock.getIdProductos(), stock.getCantidad()); // Cambio aquí
+        Stock stockActualizado = stockServicio.agregarStock(stock.getIdProductos(), stock.getCantidad());
         return ResponseEntity.ok(stockActualizado);
+    }
+
+    // Nuevo endpoint para agregar múltiples productos de stock
+    @PostMapping("/stock/multiple")
+    public ResponseEntity<List<Stock>> agregarMultipleStock(@RequestBody List<Stock> productosStock) {
+        logger.info("Recibiendo múltiples productos de stock: ");
+        productosStock.forEach(producto -> logger.info(producto.toString()));
+
+        // Llamar al servicio para agregar los productos
+        List<Stock> productosAgregados = stockServicio.agregarMultipleStock(productosStock);
+
+        // Si se agregaron los productos, devuelve la lista de productos agregados
+        return ResponseEntity.ok(productosAgregados);  // Devuelve los productos agregados en la respuesta
     }
 }

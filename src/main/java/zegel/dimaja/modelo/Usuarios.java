@@ -19,11 +19,13 @@ public class Usuarios {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id_usuarios;
     String nombres;
+    String apellidos;
     String correo;
     String usuario;
     String password;
     Integer dni;
     Integer id_rol;
+    Integer id_situacion;
 
     public Integer getId_usuarios() {
         return id_usuarios;
@@ -39,6 +41,14 @@ public class Usuarios {
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getCorreo() {
@@ -79,5 +89,13 @@ public class Usuarios {
 
     public void setId_rol(Integer id_rol) {
         this.id_rol = id_rol;
+    }
+
+    public Integer getId_situacion() {
+        return id_situacion;
+    }
+
+    public void setId_situacion(Integer id_situacion) {
+        this.id_situacion = id_situacion;
     }
 }

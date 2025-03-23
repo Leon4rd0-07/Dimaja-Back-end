@@ -4,6 +4,7 @@ package zegel.dimaja.controlador;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zegel.dimaja.modelo.Productos;
@@ -72,5 +73,19 @@ public class UsuariosControlador {
         response.put("mensaje", "Usuario actualizado exitosamente");
 
         return ResponseEntity.ok(response); // Retorna un JSON válido
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuarios usuario) {
+        Usuarios usuarioAutenticado = usuariosServicio.autenticarUsuario(usuario.getUsuario(), usuario.getPassword());
+
+        if (usuarioAutenticado != null) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensaje", "Login exitoso");
+            response.put("usuario", usuarioAutenticado);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña incorrectos");
+        }
     }
 }
